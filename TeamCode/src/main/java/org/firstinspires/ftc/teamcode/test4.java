@@ -62,7 +62,6 @@ double horizontalAim = 2.00;
         lasttime = time.time();
         while (opModeIsActive()){
 
-
             telemetry.addData("posição",MTL.getCurrentPosition());
             telemetry.addData("posição",MTR.getCurrentPosition());
             telemetry.addData("guinada",guinada.getRobotYawPitchRollAngles().getYaw());
