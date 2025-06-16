@@ -43,10 +43,11 @@ double converssion_factore = Exit_final/(2*Math.PI*raio);
         while (opModeIsActive()){
 
 
+
         }
 
 
-        
+
 
 
 
