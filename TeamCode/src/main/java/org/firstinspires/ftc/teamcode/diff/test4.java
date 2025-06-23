@@ -1,4 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.diff;
+
+import static org.firstinspires.ftc.teamcode.diff.Constants.*;
+import static org.firstinspires.ftc.teamcode.diff.Constants.horizontalAim;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp
 public class test4 extends LinearOpMode {
@@ -16,34 +18,7 @@ enum Estado{
 Estado estado = Estado.stop;
 DcMotorEx MT,MTL,MTR;
 
-double trackwidth = 0.176123;
-
-double raio = 0.045;
-
-int ticks = 28;
-
-double Qp1 = 3.61;
-
-double Cp1 = 5.23;
-
-double Exit_final = Qp1 * Cp1 * ticks;
-
-
-double converssion_factore = Exit_final/(2*Math.PI*raio);
-
-double cont = 1;
-
 IMU guinada;
-
-double KP = 0.1/6.35;
-
-double lasttime = 0;
-ElapsedTime time = new ElapsedTime();
-double integral = 0;
-
-double KI = 0.000005;
-
-double horizontalAim = 2.00;
 
     public void runOpMode() {
 
@@ -59,7 +34,6 @@ double horizontalAim = 2.00;
         waitForStart();
         guinada.resetYaw();
         estado = Estado.frente;
-        lasttime = time.time();
         while (opModeIsActive()){
 
             telemetry.addData("posição",MTL.getCurrentPosition());
@@ -147,7 +121,7 @@ double horizontalAim = 2.00;
     public void reta(double distancia,double velocidade){
         int ticks = (int)( distancia * converssion_factore);
         double erro = 0 - guinada.getRobotYawPitchRollAngles().getYaw();
-        Double correção = erro * 30;
+        Double correção = erro * 0.1;
 
         MTL.setVelocity(velocidade - correção);
         MTR.setVelocity(velocidade + correção);
@@ -179,9 +153,9 @@ double horizontalAim = 2.00;
     double PID(double alvo,double atual){
 
         double erro = alvo - atual;
-        double ddt = time.time() - lasttime;
-        integral += ddt * erro;
-        lasttime = time.time();
+
+
+
         return erro * KP + integral * KI;
     }
 }
